@@ -1,7 +1,6 @@
+# -*- coding: utf-8 -*-
 """Python port of Lo-Dash
 """
-
-from __future__ import absolute_import
 
 from .__meta__ import (
     __title__,
@@ -13,40 +12,68 @@ from .__meta__ import (
     __license__
 )
 
+
 #
 # Arrays
 #
 
 from .arrays import (
+    append,
+    cat,
+    chunk,
     compact,
+    concat,
     difference,
+    drop,
+    drop_right,
+    drop_right_while,
+    drop_while,
+    duplicates,
+    fill,
     find_index,
     find_last_index,
     first,
-    head,
-    take,
     flatten,
+    flatten_deep,
+    head,
     index_of,
     initial,
+    intercalate,
+    interleave,
     intersection,
+    intersperse,
     last,
     last_index_of,
+    mapcat,
+    object_,
+    pop,
     pull,
-    range_,
+    pull_at,
+    push,
     remove,
     rest,
-    tail,
-    drop,
+    reverse,
+    shift,
+    slice_,
+    sort,
     sorted_index,
+    sorted_last_index,
+    splice,
+    split_at,
+    tail,
+    take,
+    take_right,
+    take_right_while,
+    take_while,
     union,
     uniq,
     unique,
+    unshift,
+    unzip,
     without,
     xor,
     zip_,
-    unzip,
     zip_object,
-    object_,
 )
 
 
@@ -55,9 +82,10 @@ from .arrays import (
 #
 
 from .chaining import (
-    InvalidMethod,
     chain,
-    tap
+    tap,
+    thru,
+    _Dash
 )
 
 
@@ -66,43 +94,51 @@ from .chaining import (
 #
 
 from .collections import (
+    all_,
+    any_,
     at,
+    collect,
     contains,
     count_by,
-    every,
-    all_,
-    filter_,
-    select,
-    find,
+    deep_pluck,
     detect,
-    find_where,
-    find_last,
-    for_each,
     each,
-    for_each_right,
     each_right,
+    every,
+    filter_,
+    find,
+    find_last,
+    find_where,
+    foldl,
+    foldr,
+    for_each,
+    for_each_right,
     group_by,
+    include,
     index_by,
+    inject,
     invoke,
     map_,
-    collect,
+    mapiter,
     max_,
     min_,
+    partition,
     pluck,
     reduce_,
-    foldl,
-    inject,
     reduce_right,
-    foldr,
+    reductions,
+    reductions_right,
     reject,
     sample,
+    select,
     shuffle,
     size,
     some,
-    any_,
     sort_by,
+    sort_by_all,
+    sort_by_order,
     to_list,
-    where
+    where,
 )
 
 
@@ -112,12 +148,56 @@ from .collections import (
 
 from .functions import (
     after,
+    ary,
+    before,
     compose,
+    conjoin,
     curry,
+    curry_right,
+    debounce,
+    delay,
+    disjoin,
+    flow,
+    flow_right,
+    iterated,
+    juxtapose,
+    negate,
     once,
     partial,
     partial_right,
-    wrap
+    pipe,
+    pipe_right,
+    rearg,
+    spread,
+    throttle,
+    wrap,
+)
+
+
+#
+# Numerical
+#
+
+from .numerical import (
+    add,
+    average,
+    avg,
+    curve,
+    mean,
+    median,
+    moving_average,
+    moving_avg,
+    pow_,
+    power,
+    round_,
+    scale,
+    sigma,
+    slope,
+    std_deviation,
+    sum_,
+    transpose,
+    variance,
+    zscore,
 )
 
 
@@ -127,37 +207,208 @@ from .functions import (
 
 from .objects import (
     assign,
+    callables,
     clone,
     clone_deep,
+    deep_get,
+    deep_has,
+    deep_map_values,
+    deep_set,
+    defaults,
     extend,
+    find_key,
+    find_last_key,
+    for_in,
+    for_in_right,
+    for_own,
+    for_own_right,
+    get_path,
+    has,
+    has_path,
     invert,
     keys,
+    keys_in,
     map_values,
+    merge,
+    methods,
     omit,
     pairs,
+    parse_int,
     pick,
+    rename_keys,
+    set_path,
+    to_boolean,
+    to_dict,
+    to_number,
+    to_plain_object,
+    to_string,
     transform,
-    values
+    update_path,
+    values,
+    values_in,
 )
 
+
+#
+# Predicates
+#
+
+from .predicates import (
+    in_range,
+    is_associative,
+    is_blank,
+    is_boolean,
+    is_bool,
+    is_builtin,
+    is_date,
+    is_decreasing,
+    is_dict,
+    is_empty,
+    is_equal,
+    is_error,
+    is_even,
+    is_float,
+    is_function,
+    is_increasing,
+    is_indexed,
+    is_instance_of,
+    is_integer,
+    is_int,
+    is_json,
+    is_list,
+    is_match,
+    is_monotone,
+    is_nan,
+    is_native,
+    is_negative,
+    is_none,
+    is_number,
+    is_num,
+    is_object,
+    is_odd,
+    is_plain_object,
+    is_positive,
+    is_re,
+    is_reg_exp,
+    is_strictly_decreasing,
+    is_strictly_increasing,
+    is_string,
+    is_tuple,
+    is_zero,
+)
+
+
+#
+# Strings
+#
+
+from .strings import (
+    camel_case,
+    capitalize,
+    chars,
+    chop,
+    chop_right,
+    clean,
+    count_substr,
+    deburr,
+    decapitalize,
+    ends_with,
+    ensure_starts_with,
+    ensure_ends_with,
+    escape,
+    escape_reg_exp,
+    escape_re,
+    explode,
+    has_substr,
+    human_case,
+    implode,
+    insert_substr,
+    join,
+    js_match,
+    js_replace,
+    kebab_case,
+    lines,
+    number_format,
+    pad,
+    pad_left,
+    pad_right,
+    pascal_case,
+    predecessor,
+    prune,
+    quote,
+    re_replace,
+    repeat,
+    replace,
+    separator_case,
+    series_phrase,
+    series_phrase_serial,
+    slugify,
+    snake_case,
+    split,
+    start_case,
+    starts_with,
+    strip_tags,
+    substr_left,
+    substr_left_end,
+    substr_right,
+    substr_right_end,
+    successor,
+    surround,
+    swap_case,
+    title_case,
+    trim,
+    trim_left,
+    trim_right,
+    trunc,
+    truncate,
+    underscore_case,
+    unescape,
+    unquote,
+    url,
+    words,
+)
 
 #
 # Utilities
 #
 
 from .utilities import (
-    now,
-    constant,
+    attempt,
     callback,
-    create_callback,
+    constant,
+    deep_property,
+    deep_prop,
+    iteratee,
     identity,
     matches,
+    matches_property,
     memoize,
     noop,
-    property_,
+    now,
     prop,
+    prop_of,
+    property_,
+    property_of,
     random,
+    range_,
     result,
     times,
-    unique_id
+    unique_id,
 )
+
+
+#
+# Exceptions
+#
+
+from .exceptions import (
+    InvalidMethod
+)
+
+
+#
+# "_" Instance
+#
+
+py_ = _Dash()
+_ = py_

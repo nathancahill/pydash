@@ -1,21 +1,16 @@
+# -*- coding: utf-8 -*-
 """Define project metadata
 """
 
-__all__ = [
-    '__title__',
-    '__summary__',
-    '__url__',
-    '__version__',
-    '__author__',
-    '__email__',
-    '__license__',
-]
-
 __title__ = 'pydash'
-__summary__ = 'Python port of Lo-Dash'
+__summary__ = ('The kitchen sink of Python utility libraries '
+               'for doing "stuff" in a functional way. '
+               'Based on the Lo-Dash Javascript library.')
 __url__ = 'https://github.com/dgilland/pydash'
 
-__version__ = '0.0.0'
+__version__ = '3.2.0'
+
+__install_requires__ = []
 
 __author__ = 'Derrick Gilland'
 __email__ = 'dgilland@gmail.com'

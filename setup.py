@@ -2,19 +2,26 @@
 pydash
 ======
 
-Python port of Lodash.
+A utility library for doing "stuff" in a functional way. Based on the
+`Lo-Dash <http://lodash.com/>`_  Javascript library.
 
 Project: https://github.com/dgilland/pydash
+
+Documentation: http://pydash.readthedocs.org/
 """
 
-from setuptools import setup
-from setuptools.command.test import test as TestCommand
+import os
 import sys
+from setuptools import setup, find_packages
+from setuptools.command.test import test as TestCommand
+
+
+def read(fname):
+    return open(os.path.join(os.path.dirname(__file__), fname)).read()
 
 
 meta = {}
-with open('pydash/__meta__.py') as fp:
-    exec(fp.read(), meta)
+exec(read('pydash/__meta__.py'), meta)
 
 
 class Tox(TestCommand):
@@ -32,7 +39,7 @@ class Tox(TestCommand):
         self.test_suite = True
 
     def run_tests(self):
-        #import here, cause outside the eggs aren't loaded
+        # Import here because outside the eggs aren't loaded.
         import tox
         import shlex
 
@@ -48,17 +55,18 @@ setup(
     author=meta['__author__'],
     author_email=meta['__email__'],
     description=meta['__summary__'],
-    long_description=__doc__,
-    packages=['pydash'],
-    install_requires=[],
+    long_description=read('README.rst'),
+    packages=find_packages(exclude=['tests']),
+    install_requires=meta['__install_requires__'],
     tests_require=['tox'],
     cmdclass={'test': Tox},
     test_suite='tests',
-    keywords='lodash underscore functional',
+    keywords='utility functional lodash underscore',
     classifiers=[
-        'Development Status :: 3 - Alpha',
+        'Development Status :: 5 - Production/Stable',
         'Intended Audience :: Developers',
         'Operating System :: OS Independent',
+        'Programming Language :: Python',
         'License :: OSI Approved :: MIT License',
         'Topic :: Software Development :: Libraries :: Python Modules',
         'Topic :: Utilities',

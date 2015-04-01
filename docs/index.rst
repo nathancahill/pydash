@@ -1,7 +1,9 @@
 .. pydash documentation master file
 
-pydash: Python port of Lo-Dash
-==============================
+.. include:: ../README.rst
+
+.. include:: quickstart.rst
+
 
 Guide
 =====
@@ -12,14 +14,23 @@ Guide
     install
     quickstart
     differences
+    callbacks
+    deeppath
+    chaining
+    templating
+    upgrading
+
 
 API Reference
 =============
+
+Includes links to source code.
 
 .. toctree::
     :maxdepth: 2
 
     api
+
 
 Project Info
 ============
@@ -28,15 +39,17 @@ Project Info
     :maxdepth: 1
 
     license
+    versioning
     changelog
     authors
     contributing
     kudos
 
-Indices and tables
+
+Indices and Tables
 ==================
 
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
+- :ref:`genindex`
+- :ref:`modindex`
+- :ref:`search`
 

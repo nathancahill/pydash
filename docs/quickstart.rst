@@ -1,37 +1,64 @@
 Quickstart
 ==========
 
-.. code-block:: python
+The functions available from pydash can be used in two styles.
 
-    import pydash as pyd
+The first is by using the module directly or importing from it:
+
+
+.. doctest::
+
+    >>> import pydash
+    >>> from pydash import flatten
 
     # Arrays
-    pyd.flatten([1, 2, [3, [4, 5, [6, 7]]]])
-    # [1, 2, 3, 4, 5, 6, 7]
+    >>> flatten([1, 2, [3, [4, 5, [6, 7]]]])
+    [1, 2, 3, [4, 5, [6, 7]]]
+
+    >>> pydash.flatten_deep([1, 2, [3, [4, 5, [6, 7]]]])
+    [1, 2, 3, 4, 5, 6, 7]
 
     # Collections
-    pyd.pluck([{'name': 'moe', 'age': 40}, {'name': 'larry', 'age': 50}], 'name')
-    # ['moe', 'larry']
+    >>> pydash.pluck([{'name': 'moe', 'age': 40}, {'name': 'larry', 'age': 50}], 'name')
+    ['moe', 'larry']
 
     # Functions
-    curried = pyd.curry(lambda a, b, c: a + b + c)
-    curried(1, 2)(3)
-    # 6
+    >>> curried = pydash.curry(lambda a, b, c: a + b + c)
+    >>> curried(1, 2)(3)
+    6
 
     # Objects
-    pyd.omit({'name': 'moe', 'age': 40}, 'age')
-    # {'name': 'moe'}
+    >>> pydash.omit({'name': 'moe', 'age': 40}, 'age')
+    {'name': 'moe'}
 
     # Utilities
-    pyd.times(3, pyd.partial(pyd.random, 1, 6))
-    # [5, 3, 1] (actual results will vary)
+    >>> pydash.times(lambda index: index, 3)
+    [0, 1, 2]
 
     # Chaining
-    (pyd.chain([1, 2, 3, 4])
-        .without(2, 3)
-        .reject(lambda x, *args: x > 1)
-        .value())
-    # [1]
+    >>> pydash.chain([1, 2, 3, 4]).without(2, 3).reject(lambda x: x > 1).value()
+    [1]
+
+
+The second style is to use the ``py_`` or ``_`` instances (they are the same object as two different aliases):
+
+
+.. doctest::
+
+    >>> from pydash import py_
+
+    # Method calling which is equivalent to pydash.flatten(...)
+    >>> py_.flatten([1, 2, [3, [4, 5, [6, 7]]]])
+    [1, 2, 3, [4, 5, [6, 7]]]
+
+    # Method chaining which is equivalent to pydash.chain(...)
+    >>> py_([1, 2, 3, 4]).without(2, 3).reject(lambda x: x > 1).value()
+    [1]
+
+    # Late method chaining
+    >>> py_().without(2, 3).reject(lambda x: x > 1)([1, 2, 3, 4])
+    [1]
+
 
 .. seealso::
     For further details consult :ref:`API Reference <api>`.

@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 # pylint: skip-file
 """Python 2/3 compatibility
 
@@ -10,43 +11,100 @@
 """
 
 import sys
+import cgi
+from decimal import Decimal
+from functools import partial
 
 
 PY3 = sys.version_info[0] == 3
-_identity = lambda x: x
+PY26 = sys.version_info[0:2] == (2, 6)
+
+
+def _identity(x): return x
 
 
 if PY3:
+    from html.parser import HTMLParser
+    from urllib.parse import (
+        urlencode, urlsplit, urlunsplit, parse_qs, parse_qsl)
+    import builtins
     text_type = str
     string_types = (str,)
     integer_types = (int,)
+    number_types = (int, float, Decimal)
 
-    iterkeys = lambda d: iter(d.keys())
-    itervalues = lambda d: iter(d.values())
-    iteritems = lambda d: iter(d.items())
+    def iterkeys(d): return iter(d.keys())
+
+    def itervalues(d): return iter(d.values())
+
+    def iteritems(d): return iter(d.items())
 
     _range = range
 
-    def reraise(tp, value, tb=None):
-        if value.__traceback__ is not tb:
-            raise value.with_traceback(tb)
-        raise value
-
     implements_to_string = _identity
+    izip = zip
+
+    def _cmp(a, b): return (a > b) - (a < b)
 else:
+    from HTMLParser import HTMLParser
+    from itertools import izip
+    from urllib import urlencode
+    from urlparse import urlsplit, urlunsplit, parse_qs, parse_qsl
+    import __builtin__ as builtins
+
     text_type = unicode
     string_types = (str, unicode)
     integer_types = (int, long)
+    number_types = (int, long, float, Decimal)
 
-    iterkeys = lambda d: d.iterkeys()
-    itervalues = lambda d: d.itervalues()
-    iteritems = lambda d: d.iteritems()
+    def iterkeys(d): return d.iterkeys()
+
+    def itervalues(d): return d.itervalues()
+
+    def iteritems(d): return d.iteritems()
 
     _range = xrange
-
-    exec('def reraise(tp, value, tb=None):\n raise tp, value, tb')
+    _cmp = cmp
 
     def implements_to_string(cls):
         cls.__unicode__ = cls.__str__
         cls.__str__ = lambda x: x.__unicode__().encode('utf-8')
         return cls
+
+
+html_escape = partial(cgi.escape, quote=True)
+html_unescape = HTMLParser().unescape
+
+try:
+    from functools import cmp_to_key
+except ImportError:
+    # This function is missing on PY26.
+    def cmp_to_key(mycmp):
+        """Convert a cmp= function into a key= function"""
+        class K(object):
+            __slots__ = ['obj']
+
+            def __init__(self, obj, *args):
+                self.obj = obj
+
+            def __lt__(self, other):
+                return mycmp(self.obj, other.obj) < 0
+
+            def __gt__(self, other):
+                return mycmp(self.obj, other.obj) > 0
+
+            def __eq__(self, other):
+                return mycmp(self.obj, other.obj) == 0
+
+            def __le__(self, other):
+                return mycmp(self.obj, other.obj) <= 0
+
+            def __ge__(self, other):
+                return mycmp(self.obj, other.obj) >= 0
+
+            def __ne__(self, other):
+                return mycmp(self.obj, other.obj) != 0
+
+            def __hash__(self):
+                raise TypeError('hash not implemented')
+        return K
